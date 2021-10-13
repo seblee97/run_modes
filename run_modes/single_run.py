@@ -64,6 +64,6 @@ def single_run(
     for run_method in run_methods:
         try:
             method = getattr(runner, run_method)
-            method()
         except AttributeError:
             print(f"Method with name {run_method} not found on object {runner}")
+        method()
