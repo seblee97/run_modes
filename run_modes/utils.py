@@ -364,7 +364,7 @@ def json_to_config_changes(json_path: str) -> List[Dict]:
     return config_changes
 
 
-def _process_seed_arguments(seeds: Union[str, List[int]]):
+def process_seed_arguments(seeds: Union[str, List[int]]):
     """Seed specification from command line often in string format.
 
     Args:
