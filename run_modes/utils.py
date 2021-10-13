@@ -172,9 +172,11 @@ def set_device(
         else:
             print_fn("Using the CPU")
             experiment_device = torch.device("cpu")
+            using_gpu = False
     except ModuleNotFoundError:
         print_fn("Torch not found, no changes made to devices.")
         experiment_device = None
+        using_gpu = False
     return using_gpu, experiment_device
 
 
