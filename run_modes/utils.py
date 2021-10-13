@@ -348,3 +348,36 @@ def _setup_multi_seed_no_changes_experiment(
             json_path=os.path.join(path, constants.CONFIG_CHANGES_JSON),
         )
     return checkpoint_paths
+
+
+def json_to_config_changes(json_path: str) -> List[Dict]:
+    """Read a list of dictionaries from json file.
+
+    Args:
+        json_path: path to json file
+
+    Returns:
+        config_changes: list of config change mappings.
+    """
+    with open(json_path, "r") as json_file:
+        config_changes = json.load(json_file)
+    return config_changes
+
+
+def _process_seed_arguments(seeds: Union[str, List[int]]):
+    """Seed specification from command line often in string format.
+
+    Args:
+        seeds: str encoding of seeds.
+
+    Returns:
+        seeds: list of seed ints.
+    """
+    if isinstance(seeds, list):
+        return seeds
+    elif isinstance(seeds, str):
+        try:
+            seeds = [int(seeds.strip("[").strip("]"))]
+        except ValueError:
+            seeds = [int(s) for s in seeds.strip("[").strip("]").split(",")]
+    return seeds
