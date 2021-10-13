@@ -49,7 +49,7 @@ def single_run(
     config.amend_property(property_name=constants.SEED, new_property_value=config.seed)
 
     # configure device (cpu vs. gpu etc.)
-    using_gpu, experiment_device = utils.set_device(config, logger=logger)
+    using_gpu, experiment_device = utils.set_device(gpu_id=config.gpu_id, logger=logger)
     config.add_property(constants.USING_GPU, using_gpu)
     config.add_property(constants.EXPERIMENT_DEVICE, experiment_device)
 
