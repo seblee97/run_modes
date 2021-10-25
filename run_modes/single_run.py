@@ -14,6 +14,7 @@ Else, the individual method 'single_run' can be imported for use in other workfl
 e.g. to use the multiprocessing module.
 """
 import os
+import re
 from typing import Dict, List
 
 from run_modes import constants, utils
@@ -39,8 +40,13 @@ def single_run(
         checkpoint_path: path to directories to output results.
         stochastic_packages: list of packages (by name) for which seeds are to be set.
     """
-    # instantiate logging module
-    logger = utils.get_logger(experiment_path=checkpoint_path, name=__name__)
+    # instantiate logging module.
+    # use unique id here to ensure separate loggers for each runner.
+    unique_id = re.sub(r"\W+", "", str(changes))
+
+    logger = utils.get_logger(
+        experiment_path=checkpoint_path, name=f"{__name__}.{unique_id}"
+    )
 
     config = config_class(config=config_path, changes=changes)
 
@@ -59,7 +65,7 @@ def single_run(
         os.path.join(checkpoint_path, "data_logger.csv"),
     )
 
-    runner = runner_class(config=config)
+    runner = runner_class(config=config, unique_id=unique_id)
 
     for run_method in run_methods:
         try:
