@@ -2,6 +2,7 @@ import abc
 from typing import List
 
 from data_logger import data_logger
+from plotter import plotter
 from run_modes import utils
 
 
@@ -13,7 +14,7 @@ class BaseRunner(abc.ABC):
         - _get_data_columns
     """
 
-    def __init__(self, config) -> None:
+    def __init__(self, config, unique_id: str = "") -> None:
         """Class constructor.
         Creates data logger instance with columns obtained from
         output of method implemented in child class.
@@ -28,8 +29,19 @@ class BaseRunner(abc.ABC):
             logfile_path=config.logfile_path,
             columns=self._get_data_columns(),
         )
+
+        if unique_id != "":
+            name = f"{__name__}.{unique_id}"
+        else:
+            name = __name__
         self._logger = utils.get_logger(
-            experiment_path=self._checkpoint_path, name=__name__
+            experiment_path=self._checkpoint_path, name=name
+        )
+        self._plotter = plotter.Plotter(
+            save_folder=self._checkpoint_path,
+            logfile_path=config.logfile_path,
+            smoothing=config.smoothing,
+            xlabel=config.xlabel,
         )
 
     @abc.abstractmethod
