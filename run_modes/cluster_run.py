@@ -29,7 +29,7 @@ def cluster_run(
     gpu_type: str = "K80",
     env_name: str = "",
     stochastic_packages: List[str] = [],
-    cluster_debug: bool = True,
+    cluster_debug: bool = False,
 ) -> None:
     """Set of experiments run in parallel on a cluster.
 
