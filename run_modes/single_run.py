@@ -15,14 +15,15 @@ e.g. to use the multiprocessing module.
 """
 import os
 import re
-from typing import Dict, List
+from typing import Dict, List, Type
 
-from run_modes import constants, utils
+from config_manager import base_configuration
+from run_modes import base_runner, constants, utils
 
 
 def single_run(
-    runner_class,
-    config_class,
+    runner_class: Type[base_runner.BaseRunner],
+    config_class: Type[base_configuration.BaseConfiguration],
     run_methods: List[str],
     config_path: str,
     checkpoint_path: str,
@@ -38,6 +39,7 @@ def single_run(
         that are to be called.
         config_path: path to yaml configuration file for experiment.
         checkpoint_path: path to directories to output results.
+        changes: changes to be made to config.
         stochastic_packages: list of packages (by name) for which seeds are to be set.
     """
     # instantiate logging module.
