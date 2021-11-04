@@ -17,4 +17,22 @@ The first aspect of the package is the BaseRunner class in ```base_runner.py```.
 
 ### Run Modes
 
-A class of type BaseRunner and a configuration object that extends the BaseConfiguration class provided in [this configuration package](https://github.com/seblee97/config_package), are the primary arguments that need to be provided to one of the numerous "run mode" classes in this package.
+A class of type BaseRunner and a configuration object that extends the BaseConfiguration class provided in [this configuration package](https://github.com/seblee97/config_package), are the primary arguments that need to be given to one of the numerous "run mode" classes in this package.
+
+The simplest "run mode" is the single_run method, which performs a single experiment. Assuming a runner class called ExampleRunner and a config class called ExampleConfig, the usage for a pipeline with a _train_ method followed by a _test_ method would be as follows:
+
+```
+from run_modes import single_run
+
+single_run.single_run(
+		runner_class=ExampleRunner,
+		config_class=ExampleConfig,
+		config_path=path_to_yaml,
+		checkpoint_path=path_to_exp,
+		run_methods=["train", "test"],
+	)
+```
+
+A more comprehensive example for a simple deep learning model can be found in the ```example``` folder.
+
+Other "run modes" provided are extensions to this single run that allow a range of experiments (in series or parallel), and submission to job schedulers such as SLURM or UNIVA.
