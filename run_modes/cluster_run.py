@@ -23,6 +23,7 @@ def cluster_run(
     run_methods: List[str],
     config_path: str,
     checkpoint_paths: List[str],
+    scheduler: str = "slurm",
     num_cpus: int = 4,
     num_gpus: int = 0,
     memory: int = 16,
@@ -76,7 +77,14 @@ def cluster_run(
             f"--stochastic_packages '{stochastic_packages}'"
         )
 
-        utils.create_job_script(
+        if scheduler == constants.SLURM:
+            script_command = utils.create_slurm_job_script
+            subprocess_call = "sbatch"
+        elif scheduler == constants.UNIVA:
+            script_command = utils.create_job_script
+            subprocess_call = "qsub"
+
+        script_command(
             run_command=run_command,
             save_path=job_script_path,
             num_cpus=num_cpus,
@@ -91,4 +99,4 @@ def cluster_run(
         if cluster_debug:
             subprocess.call(run_command, shell=True)
         else:
-            subprocess.call(f"qsub {job_script_path}", shell=True)
+            subprocess.call(f"{subprocess_call} {job_script_path}", shell=True)
