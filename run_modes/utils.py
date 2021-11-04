@@ -403,7 +403,7 @@ def create_job_script(
     array_job_length: int = 0,
     walltime: str = "24:0:0",
 ) -> None:
-    """Create a job script for use on HPC.
+    """Create a job script for use on HPC using Univa.
 
     Args:
             run_command: main script command, e.g. 'python run.py'
@@ -430,4 +430,44 @@ def create_job_script(
         # change to dir where job was submitted from
         file.write("cd $PBS_O_WORKDIR\n")
         # job script
+        file.write(f"{run_command}\n")
+
+
+def create_slurm_job_script(
+    run_command: str,
+    save_path: str,
+    num_cpus: int,
+    conda_env_name: str,
+    memory: int,
+    num_gpus: int,
+    gpu_type: str,
+    error_path: str,
+    output_path: str,
+    array_job_length: int = 0,
+    walltime: str = "24:0:0",
+) -> None:
+    """Create a job script for use on HPC using SLURM.
+
+    Args:
+            run_command: main script command, e.g. 'python run.py'
+            save_path: path to save the job script to
+            num_cpus: number of cores for job
+            conda_env_name: name of conda environment to activate for job
+            memory: number of gb memory to allocate to node.
+            walltime: time to give job--1 day by default
+    """
+    with open(save_path, "w") as file:
+        file.write("#!/bin/bash\n")
+        # num CPUs
+        file.write(f"#SBATCH --ntasks={num_cpus}\n")
+        # memory (GB)
+        file.write(f"#SBATCH --mem={memory}gb\n")
+        # walltime
+        file.write(f"#SBATCH --time={walltime}\n")
+        # out file
+        file.write(f"#SBATCH --output={output_path}")
+        # err file
+        file.write(f"#SBATCH --error={error_path}")
+
+        # command
         file.write(f"{run_command}\n")
