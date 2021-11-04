@@ -1,6 +1,7 @@
 import abc
-from typing import List
+from typing import List, Type
 
+from config_manager import base_configuration
 from data_logger import data_logger
 from plotter import plotter
 from run_modes import utils
@@ -14,7 +15,9 @@ class BaseRunner(abc.ABC):
         - _get_data_columns
     """
 
-    def __init__(self, config, unique_id: str = "") -> None:
+    def __init__(
+        self, config: Type[base_configuration.BaseConfiguration], unique_id: str = ""
+    ) -> None:
         """Class constructor.
         Creates data logger instance with columns obtained from
         output of method implemented in child class.
