@@ -19,5 +19,9 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.6",
-    install_requires=[],
+    install_requires=[
+        "config-manager-seblee97 @ git+https://github.com/seblee97/config_package.git#egg=config-manager-seblee97",
+        "data-logger-seblee97 @ git+https://github.com/seblee97/data_logger.git#egg=data-logger-seblee97",
+        "plotter-seblee97 @ git+https://github.com/seblee97/plotter.git#egg=plotter-seblee97",
+    ],
 )
