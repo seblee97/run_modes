@@ -4,3 +4,4 @@
 src
 *egg-info*
 *.DS_Store
+example/example_results/
