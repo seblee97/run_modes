@@ -33,6 +33,6 @@ single_run.single_run(
 	)
 ```
 
-A more comprehensive example for a simple deep learning model can be found in the ```example``` folder.
+A more comprehensive example for a runner plotting simple polynomials can be found in the ```example``` folder. To see basic behaviour of the runner you can run ```python example/main.y```.
 
 Other "run modes" provided are extensions to this single run that allow a range of experiments (in series or parallel), and submission to job schedulers such as SLURM or UNIVA.
