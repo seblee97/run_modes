@@ -52,12 +52,33 @@ def single_run(
 
     config = config_class(config=config_path, changes=changes)
 
+    # default runner config values
+    try:
+        seed = getattr(config, constants.SEED)
+        config.amend_property(property_name=constants.SEED, new_property_value=seed)
+    except AttributeError:
+        seed = 0
+        config.add_property(property_name=constants.SEED, property_value=seed)
+    try:
+        gpu_id = getattr(config, constants.GPU_ID)
+    except AttributeError:
+        gpu_id = None
+    try:
+        xlabel = getattr(config, constants.XLABEL)
+    except AttributeError:
+        xlabel = "X"
+        config.add_property(property_name=constants.XLABEL, property_value=xlabel)
+    try:
+        smoothing = getattr(config, constants.SMOOTHING)
+    except AttributeError:
+        smoothing = 1
+        config.add_property(property_name=constants.SMOOTHING, property_value=smoothing)
+
     # configure random seeds
-    utils.set_random_seeds(seed=config.seed, packages=stochastic_packages)
-    config.amend_property(property_name=constants.SEED, new_property_value=config.seed)
+    utils.set_random_seeds(seed=seed, packages=stochastic_packages)
 
     # configure device (cpu vs. gpu etc.)
-    using_gpu, experiment_device = utils.set_device(gpu_id=config.gpu_id, logger=logger)
+    using_gpu, experiment_device = utils.set_device(gpu_id=gpu_id, logger=logger)
     config.add_property(constants.USING_GPU, using_gpu)
     config.add_property(constants.EXPERIMENT_DEVICE, experiment_device)
 
