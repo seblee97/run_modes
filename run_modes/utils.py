@@ -460,9 +460,9 @@ def create_slurm_job_script(
         file.write("#!/bin/bash\n")
 
         if num_gpus == 0:
-            file.write("#SBATCH -p cpu")
+            file.write("#SBATCH -p cpu\n")
         else:
-            file.write("#SBATCH -p gpu")
+            file.write("#SBATCH -p gpu\n")
         # num nodes
         file.write(f"#SBATCH -N {1}\n")
         # num cores
