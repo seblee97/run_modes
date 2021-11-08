@@ -465,9 +465,9 @@ def create_slurm_job_script(
         # walltime
         file.write(f"#SBATCH --time={walltime}\n")
         # out file
-        file.write(f"#SBATCH --output={output_path}")
+        file.write(f"#SBATCH --output={output_path}\n")
         # err file
-        file.write(f"#SBATCH --error={error_path}")
+        file.write(f"#SBATCH --error={error_path}\n")
 
         # command
         file.write(f"{run_command}\n")
