@@ -458,10 +458,17 @@ def create_slurm_job_script(
     """
     with open(save_path, "w") as file:
         file.write("#!/bin/bash\n")
-        # num CPUs
-        file.write(f"#SBATCH --ntasks={num_cpus}\n")
+
+        if num_gpus == 0:
+            file.write("#SBATCH -p cpu")
+        else:
+            file.write("#SBATCH -p gpu")
+        # num nodes
+        file.write(f"#SBATCH -N {1}\n")
+        # num cores
+        file.write(f"#SBATCH -n {num_cpus}\n")
         # memory (GB)
-        file.write(f"#SBATCH --mem={memory}gb\n")
+        file.write(f"#SBATCH --mem {memory} \n")
         # walltime
         file.write(f"#SBATCH --time={walltime}\n")
         # out file
