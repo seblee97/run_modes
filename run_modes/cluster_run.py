@@ -27,7 +27,7 @@ def cluster_run(
     num_cpus: int = 4,
     num_gpus: int = 0,
     memory: int = 16,
-    timeout: str = "24:0:0",
+    walltime: str = "24:0:0",
     gpu_type: str = "K80",
     env_name: str = "",
     stochastic_packages: List[str] = [],
@@ -95,7 +95,7 @@ def cluster_run(
             gpu_type=gpu_type,
             error_path=error_path,
             output_path=output_path,
-            timeout=timeout,
+            walltime=walltime,
         )
 
         if cluster_debug:
