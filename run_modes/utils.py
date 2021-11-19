@@ -400,8 +400,8 @@ def create_job_script(
     gpu_type: str,
     error_path: str,
     output_path: str,
+    walltime: str,
     array_job_length: int = 0,
-    walltime: str = "24:0:0",
 ) -> None:
     """Create a job script for use on HPC using Univa.
 
@@ -443,8 +443,8 @@ def create_slurm_job_script(
     gpu_type: str,
     error_path: str,
     output_path: str,
+    walltime: str,
     array_job_length: int = 0,
-    walltime: str = "24:0:0",
 ) -> None:
     """Create a job script for use on HPC using SLURM.
 
