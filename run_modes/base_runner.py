@@ -29,16 +29,16 @@ class BaseRunner(abc.ABC):
         if unique_id != "":
             name = f"{__name__}.{unique_id}"
             logfile_path_name = config.logfile_path.split(".csv")[0]
-            logfile_path = f"{logfile_path_name}_{unique_id}.csv"
+            self._logfile_path = f"{logfile_path_name}_{unique_id}.csv"
         else:
             name = __name__
-            logfile_path = config.logfile_path
+            self._logfile_path = config.logfile_path
 
         self._checkpoint_path = config.checkpoint_path
 
         self._data_logger = data_logger.DataLogger(
             checkpoint_path=self._checkpoint_path,
-            logfile_path=logfile_path,
+            logfile_path=self._logfile_path,
             columns=self._get_data_columns(),
         )
 
@@ -47,7 +47,7 @@ class BaseRunner(abc.ABC):
         )
         self._plotter = plotter.Plotter(
             save_folder=self._checkpoint_path,
-            logfile_path=logfile_path,
+            logfile_path=self._logfile_path,
             smoothing=config.smoothing,
             xlabel=config.xlabel,
             unique_id=unique_id,
@@ -57,3 +57,7 @@ class BaseRunner(abc.ABC):
     def _get_data_columns(self) -> List[str]:
         """Output data columns to be logged by runner."""
         pass
+
+    @property
+    def logfile_path(self):
+        return self._logfile_path
