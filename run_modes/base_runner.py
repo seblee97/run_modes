@@ -47,7 +47,7 @@ class BaseRunner(abc.ABC):
         )
         self._plotter = plotter.Plotter(
             save_folder=self._checkpoint_path,
-            logfile_path=config.logfile_path,
+            logfile_path=logfile_path,
             smoothing=config.smoothing,
             xlabel=config.xlabel,
         )
