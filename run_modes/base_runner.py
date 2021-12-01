@@ -26,17 +26,22 @@ class BaseRunner(abc.ABC):
         Args:
             config: configuration object.
         """
+        if unique_id != "":
+            name = f"{__name__}.{unique_id}"
+            logfile_path_name = config.logfile_path.split(".csv")[0]
+            logfile_path = f"{logfile_path_name}_{unique_id}.csv"
+        else:
+            name = __name__
+            logfile_path = config.logfile_path
+
         self._checkpoint_path = config.checkpoint_path
+
         self._data_logger = data_logger.DataLogger(
             checkpoint_path=self._checkpoint_path,
-            logfile_path=config.logfile_path,
+            logfile_path=logfile_path,
             columns=self._get_data_columns(),
         )
 
-        if unique_id != "":
-            name = f"{__name__}.{unique_id}"
-        else:
-            name = __name__
         self._logger = utils.get_logger(
             experiment_path=self._checkpoint_path, name=name
         )
