@@ -50,6 +50,7 @@ class BaseRunner(abc.ABC):
             logfile_path=logfile_path,
             smoothing=config.smoothing,
             xlabel=config.xlabel,
+            unique_id=unique_id,
         )
 
     @abc.abstractmethod
