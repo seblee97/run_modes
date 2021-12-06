@@ -99,7 +99,8 @@ def setup_experiment(
             )
     else:
         raise ValueError(f"run mode {mode} not recognised. Unable to setup_experiment.")
-    return paths
+
+    return experiment_path, paths
 
 
 def set_random_seeds(seed: int, packages: List[str]) -> None:
