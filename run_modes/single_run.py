@@ -88,6 +88,8 @@ def single_run(
         os.path.join(checkpoint_path, "data_logger.csv"),
     )
 
+    config.save_configuration(folder_path=checkpoint_path)
+
     runner = runner_class(config=config, unique_id=unique_id)
 
     for run_method in run_methods:
