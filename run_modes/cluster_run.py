@@ -32,6 +32,7 @@ def cluster_run(
     env_name: str = "",
     stochastic_packages: List[str] = [],
     cluster_debug: bool = False,
+    cluster_debug_run: bool = False,
 ) -> None:
     """Set of experiments run in parallel on a cluster.
 
@@ -54,6 +55,7 @@ def cluster_run(
         env_name: name of conda environment to activate.
         stochastic_packages: list of packages (by name) for which seeds are to be set.
         cluster_debug: bool to indicate whether to test pipeline locally.
+        cluster_debug_run: bool to indicate whether to run locally in place of cluster submission.
     """
     for checkpoint_path in checkpoint_paths:
         changes_path = os.path.join(checkpoint_path, constants.CONFIG_CHANGES_JSON)
@@ -99,6 +101,7 @@ def cluster_run(
         )
 
         if cluster_debug:
-            subprocess.call(run_command, shell=True)
+            if cluster_debug_run:
+                subprocess.call(run_command, shell=True)
         else:
             subprocess.call(f"{subprocess_call} {job_script_path}", shell=True)
