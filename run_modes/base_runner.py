@@ -29,6 +29,10 @@ class BaseRunner(abc.ABC):
         if unique_id != "":
             name = f"{__name__}.{unique_id}"
             logfile_path_name = config.logfile_path.split(".csv")[0]
+            if len(unique_id) > 50:
+                unique_id = str(hash(unique_id))
+            else:
+                unique_id = unique_id
             self._logfile_path = f"{logfile_path_name}_{unique_id}.csv"
         else:
             name = __name__
