@@ -347,14 +347,19 @@ def _setup_multi_seed_no_changes_experiment(
     """
     checkpoint_paths = []
     for seed in seeds:
-        path = os.path.join(experiment_path, str(seed))
+        config_changes = [{constants.SEED: seed}]
+        path = os.path.join(experiment_path, constants.SINGLE, str(seed))
         checkpoint_paths.append(path)
         os.makedirs(path, exist_ok=True)
-        # placeholder, empty file
         config_changes_to_json(
-            config_changes={},
+            config_changes=config_changes,
             json_path=os.path.join(path, constants.CONFIG_CHANGES_JSON),
         )
+    # placeholder, empty changes
+    config_changes_to_json(
+        config_changes={constants.SINGLE: []},
+        json_path=os.path.join(experiment_path, f"all_{constants.CONFIG_CHANGES_JSON}"),
+    )
     return checkpoint_paths
 
 
