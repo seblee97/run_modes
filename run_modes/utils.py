@@ -377,7 +377,7 @@ def json_to_config_changes(json_path: str) -> List[Dict]:
     return config_changes
 
 
-def process_seed_arguments(seeds: Union[str, List[int]]):
+def process_seed_arguments(seeds: Union[str, List[int], int]):
     """Seed specification from command line often in string format.
 
     Args:
@@ -386,8 +386,10 @@ def process_seed_arguments(seeds: Union[str, List[int]]):
     Returns:
         seeds: list of seed ints.
     """
-    if isinstance(seeds, list):
-        return seeds
+    if isinstance(seeds, int):
+        seeds = list(range(seeds))
+    elif isinstance(seeds, list):
+        pass
     elif isinstance(seeds, str):
         try:
             seeds = [int(seeds.strip("[").strip("]"))]
