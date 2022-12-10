@@ -46,6 +46,7 @@ def setup_experiment(
     config_path: str,
     config_changes_path: Optional[str] = None,
     seeds: Optional[List[int]] = None,
+    experiment_name: Optional[str] = "",
 ) -> Union[str, List[str]]:
     """Method to construct tree of paths for experiment outputs.
 
@@ -65,7 +66,8 @@ def setup_experiment(
         ValueError: if mode is not recognised.
     """
     timestamp = get_experiment_timestamp()
-    experiment_path = os.path.join(results_folder, timestamp)
+    experiment_name = f"{timestamp}{experiment_name}"
+    experiment_path = os.path.join(results_folder, experiment_name)
 
     os.makedirs(name=experiment_path, exist_ok=True)
     config_copy_path = os.path.join(experiment_path, "config.yaml")
@@ -472,9 +474,9 @@ def create_slurm_job_script(
         else:
             file.write("#SBATCH -p gpu\n")
         # num nodes
-        file.write(f"#SBATCH -N {1}\n")
-        # num cores
-        file.write(f"#SBATCH -n {num_cpus}\n")
+        file.write(f"#SBATCH --nodes {1}\n")
+        # num cpus
+        file.write(f"#SBATCH --cpus-per-task {num_cpus}\n")
         # memory (GB)
         file.write(f"#SBATCH --mem {memory} \n")
         # walltime
