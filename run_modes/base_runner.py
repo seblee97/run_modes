@@ -40,15 +40,16 @@ class BaseRunner(abc.ABC):
 
         self._checkpoint_path = config.checkpoint_path
 
+        self._logger = utils.get_logger(
+            experiment_path=self._checkpoint_path, name=name
+        )
+        
         self._data_logger = data_logger.DataLogger(
             checkpoint_path=self._checkpoint_path,
             logfile_path=self._logfile_path,
             columns=self._get_data_columns(),
         )
 
-        self._logger = utils.get_logger(
-            experiment_path=self._checkpoint_path, name=name
-        )
         self._plotter = plotter.Plotter(
             save_folder=self._checkpoint_path,
             logfile_path=self._logfile_path,
